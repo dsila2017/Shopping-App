@@ -9,20 +9,28 @@ import Foundation
 
 class ProductManager {
     
+    static var shared = ProductManager()
+    
     func getProductData(urlString: String){
         
-        NetworkManager.shared.getData(string: urlString) { (data: [ProductModel]?, error) in
+        NetworkManager.shared.getData(string: urlString) { (data: ProductModel?, error) in
+            
             
             if let error {
-                print (error)
+                DispatchQueue.main.async {
+                    print (error)
+                }
             }
             
             guard let data else{
-                print(error)
+                DispatchQueue.main.async {
+                    print (error)
+                }
                 return
             }
-            
-            print("We have got data")
+            DispatchQueue.main.async {
+                print("We have got data")
+            }
             
         }
     }

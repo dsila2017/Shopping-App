@@ -18,7 +18,7 @@ struct productsArray: Codable {
     let title: String
     let description: String
     let price: Int
-    let discountPercentabe: Double
+    let discountPercentage: Double
     let rating: Double
     let stock: Int
     let brand: String

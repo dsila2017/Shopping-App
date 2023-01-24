@@ -14,7 +14,7 @@ class NetworkManager {
     
     static var shared = NetworkManager()
     
-    func getData<T: Codable>(string: String, closure: @escaping ([T]?, Error?) -> Void){
+    func getData<T: Codable>(string: String, closure: @escaping (T?, Error?) -> Void){
         
         let urlString = string
         
@@ -46,7 +46,7 @@ class NetworkManager {
             
             do {
                 
-                let responseData = try JSONDecoder().decode([T].self, from: data)
+                let responseData = try JSONDecoder().decode(T.self, from: data)
                 closure(responseData, nil)
             }
             
