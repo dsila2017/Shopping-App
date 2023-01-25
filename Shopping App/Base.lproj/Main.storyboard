@@ -103,7 +103,7 @@
                                                                     <constraint firstAttribute="height" constant="57" id="3Fm-Mg-Xjy"/>
                                                                 </constraints>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                <textInputTraits key="textInputTraits" autocorrectionType="no" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
+                                                                <textInputTraits key="textInputTraits" autocorrectionType="no" enablesReturnKeyAutomatically="YES"/>
                                                             </textField>
                                                         </subviews>
                                                         <constraints>
@@ -189,7 +189,7 @@
                                 <rect key="frame" x="0.0" y="58.999999999999986" width="393" height="151.66666666666663"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="OJ2-qF-xox">
-                                        <rect key="frame" x="135.66666666666666" y="24.333333333333329" width="121.99999999999997" height="102.99999999999999"/>
+                                        <rect key="frame" x="135.66666666666666" y="24.333333333333329" width="121.99999999999997" height="103"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="103" id="1pu-FT-A0g"/>
                                             <constraint firstAttribute="width" constant="122" id="7QI-sf-KbO"/>
@@ -457,6 +457,9 @@
                                             </backgroundConfiguration>
                                             <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="nextButton:" destination="H3g-ke-Q2d" eventType="touchUpInside" id="JIo-N0-K4w"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>

@@ -20,9 +20,18 @@ class ViewController3: UIViewController {
     @IBOutlet weak var deliveryNumber: UILabel!
     @IBOutlet weak var totalNumber: UILabel!
     
-    
+    @IBAction func nextButton(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "ErrorVC") as? ErrorVC
+        
+        self.present(vc!, animated: true)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         totalPrice.text = "total price"
         fee.text = "fee"
         delivery.text = "delivery"

@@ -16,20 +16,19 @@ class ViewController2: UIViewController {
     @IBAction func nextButton(_ sender: UIButton) {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "ErrorVC") as? ErrorVC
-        self.present(vc!, animated: true)
-        
+        let vc = storyboard.instantiateViewController(withIdentifier: "ViewController3") as? ViewController3
+        self.navigationController?.pushViewController(vc!, animated: true)
         
     }
     
     var array = [ProductModel]()
+    override func viewWillAppear(_ animated: Bool) {
+        
+        self.navigationController?.navigationBar.isHidden = true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "ViewController3") as? ViewController3
-        //
         
         self.table.delegate = self
         self.table.dataSource = self
@@ -67,9 +66,11 @@ extension ViewController2: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = table.dequeueReusableCell(withIdentifier: "MainCell", for: indexPath) as! MainCell
         
+        cell.index = indexPath
         cell.brandLabel.text = array.first?.products[indexPath.row].brand
         cell.stockLabel.text = "stock : \((array.first?.products[indexPath.row].stock) ?? 0)"
         cell.priceLabel.text = "price: \((array.first?.products[indexPath.row].price) ?? 0)"
+        cell.quantityLabel.text = "\(cell.dict[indexPath] ?? 0)"
         
         return cell
     }
