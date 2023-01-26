@@ -94,8 +94,7 @@
 				631B00FB297EEE8600C30D31 /* CellForVC2 */,
 				63F005FC297F0609007F73B8 /* ViewController3.swift */,
 				63F00607297FB11A007F73B8 /* CellForVC3 */,
-				634318E629764BE800CBE156 /* Network Manager.swift */,
-				634318E82976510B00CBE156 /* Product Manager.swift */,
+				63E1BCC5298147E30031109E /* Networking */,
 				634318EA297651B900CBE156 /* Product Model.swift */,
 				634318D829764B3500CBE156 /* Main.storyboard */,
 				63F0060A297FB82E007F73B8 /* ErrorVC.swift */,
@@ -105,6 +104,15 @@
 				634318E029764B3500CBE156 /* Info.plist */,
 			);
 			path = "Shopping App";
+			sourceTree = "<group>";
+		};
+		63E1BCC5298147E30031109E /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				634318E629764BE800CBE156 /* Network Manager.swift */,
+				634318E82976510B00CBE156 /* Product Manager.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 		63F00607297FB11A007F73B8 /* CellForVC3 */ = {

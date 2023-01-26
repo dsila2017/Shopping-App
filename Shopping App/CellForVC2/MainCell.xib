@@ -67,10 +67,8 @@
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rSX-Ev-iJo">
                         <rect key="frame" x="221.66666666666666" y="113" width="12" height="12"/>
                         <constraints>
-                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="12" id="ARW-PA-MU3"/>
                             <constraint firstAttribute="height" constant="12" id="Kv6-Ad-dS6"/>
                             <constraint firstAttribute="width" constant="12" id="S8E-TA-KzK"/>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="12" id="eD6-W3-wHW"/>
                         </constraints>
                         <state key="normal" title="Button"/>
                         <buttonConfiguration key="configuration" style="plain" image="minus" catalog="system"/>

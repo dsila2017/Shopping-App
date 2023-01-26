@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iB4-Cu-AY8">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="dXL-0Y-KLu">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
@@ -207,7 +207,7 @@
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="yd5-9y-ULo">
                                         <rect key="frame" x="16" y="-2" width="361" height="531.33333333333337"/>
-                                        <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </tableView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -327,15 +327,15 @@
         <scene sceneID="h2z-Ys-Wqf">
             <objects>
                 <viewController storyboardIdentifier="ViewController3" id="H3g-ke-Q2d" customClass="ViewController3" customModule="Shopping_App" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="tfl-FS-u6s">
+                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="tfl-FS-u6s">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E7c-Zc-8Ew" userLabel="Top">
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="E7c-Zc-8Ew" userLabel="Top">
                                 <rect key="frame" x="0.0" y="59" width="393" height="76"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="გადახდის გვერდი" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4s9-EZ-eSZ">
-                                        <rect key="frame" x="121.33333333333333" y="20" width="150.66666666666669" height="36"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="გადახდის გვერდი" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4s9-EZ-eSZ">
+                                        <rect key="frame" x="121.33333333333334" y="20" width="150.66666666666666" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="gge-IL-diM"/>
                                         </constraints>
@@ -369,7 +369,7 @@
                                     <constraint firstItem="k9M-4f-8YS" firstAttribute="top" secondItem="PEr-LM-EEQ" secondAttribute="top" constant="10" id="ILL-yW-Dca"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="STt-Ol-aSP" userLabel="Bottom">
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="STt-Ol-aSP" userLabel="Bottom">
                                 <rect key="frame" x="0.0" y="590.33333333333337" width="375" height="255.66666666666663"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bVq-st-c8S">
@@ -408,7 +408,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8zF-kY-Whi">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8zF-kY-Whi">
                                         <rect key="frame" x="317" y="21" width="42" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="qmU-b1-3NW"/>
@@ -417,7 +417,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G5h-Vt-ev7">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G5h-Vt-ev7">
                                         <rect key="frame" x="317" y="57" width="42" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="NEk-Pn-agJ"/>
@@ -426,7 +426,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cPN-zC-88I">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cPN-zC-88I">
                                         <rect key="frame" x="317" y="93" width="42" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="7IE-eJ-kCx"/>
@@ -435,7 +435,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gRF-Iu-XbC">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gRF-Iu-XbC">
                                         <rect key="frame" x="317" y="129" width="42" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="2wc-Z7-B1Y"/>
@@ -451,7 +451,7 @@
                                             <constraint firstAttribute="width" constant="343" id="wQv-y7-RiR"/>
                                         </constraints>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Button">
+                                        <buttonConfiguration key="configuration" style="plain" title="გადახდა">
                                             <backgroundConfiguration key="background">
                                                 <color key="backgroundColor" red="0.3720748425" green="0.63675427439999999" blue="0.97252970930000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             </backgroundConfiguration>
@@ -491,6 +491,7 @@
                         <constraints>
                             <constraint firstItem="E7c-Zc-8Ew" firstAttribute="leading" secondItem="tH8-jT-djx" secondAttribute="leading" id="3I3-T9-DaN"/>
                             <constraint firstItem="PEr-LM-EEQ" firstAttribute="leading" secondItem="tH8-jT-djx" secondAttribute="leading" id="3wv-JX-g2S"/>
+                            <constraint firstItem="tH8-jT-djx" firstAttribute="trailing" secondItem="STt-Ol-aSP" secondAttribute="trailing" id="HlM-Ii-iZq"/>
                             <constraint firstItem="PEr-LM-EEQ" firstAttribute="top" secondItem="E7c-Zc-8Ew" secondAttribute="bottom" id="QAq-Rt-gT1"/>
                             <constraint firstItem="STt-Ol-aSP" firstAttribute="leading" secondItem="tH8-jT-djx" secondAttribute="leading" id="elD-6h-t4j"/>
                             <constraint firstItem="STt-Ol-aSP" firstAttribute="top" secondItem="PEr-LM-EEQ" secondAttribute="bottom" id="f2A-Mg-h82"/>
@@ -655,9 +656,6 @@
         <image name="tick-circle" width="137" height="137"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemTealColor">
             <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
