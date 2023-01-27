@@ -12,7 +12,7 @@ struct ProductModel: Codable {
     let products: [productsArray]
 }
 
-struct productsArray: Codable {
+struct productsArray: Codable, Hashable {
     
     let id: Int
     let title: String

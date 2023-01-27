@@ -15,43 +15,63 @@ class MainCell: UITableViewCell {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var quantityLabel: UILabel!
     
-    var quanity = 0
+    var quantity = 0
     var dict = [IndexPath: Int]()
     var index = IndexPath()
     
+    var dict2 = [Int: Int]()
+    
+    var delegate: passData?
+    
+    var maxQ = 0
+    
     @IBAction func plusButton(_sender: UIButton) {
-        plus()
+        if quantity < maxQ {
+            plus()
+            delegate?.plusQuantity()
+            delegate?.indexPlus(index: index, quantity: quantity)
+        }
     }
     @IBAction func minusButton(_sender: UIButton) {
-        minus()
+        
+        if quantity > 0{
+            minus()
+            delegate?.minusQuantity()
+            delegate?.indexMinus(index: index, quantity: quantity)
+        }
     }
     
     func plus() {
-        quanity += 1
-        dict[index] = quanity
-        
-        self.quantityLabel.text = "\(quanity)"
+        //if quantity < 10 {
+            quantity += 1
+            //dict[index] = quanity
+            
+            self.quantityLabel.text = "\(quantity)"
+        //}
     }
     
     func minus() {
-        if quanity > 0 {
-            quanity -= 1
-            dict[index] = quanity
-            self.quantityLabel.text = "\(quanity)"
+        if quantity > 0 {
+            quantity -= 1
+            //dict[index] = quantity
+            self.quantityLabel.text = "\(quantity)"
         }
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        self.quantity = 0
         self.stockLabel.text = "stock: "
         self.priceLabel.text = "price: "
         self.quantityLabel.text = ""
-        self.quantityLabel.text = "\(quanity)"
+        self.quantityLabel.text = "\(quantity)"
         
     }
     
     override func prepareForReuse() {
         
+        self.quantity = 0
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

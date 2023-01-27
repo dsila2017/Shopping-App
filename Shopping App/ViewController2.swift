@@ -13,13 +13,42 @@ class ViewController2: UIViewController {
     
     @IBOutlet weak var table: UITableView!
     
+    @IBOutlet weak var mainQuantityLabel: UILabel!
+    @IBOutlet weak var mainTotalLabel: UILabel!
+    
+    @IBAction func clearNetwork(_ sender: UIButton) {
+        
+        UserDefaults.standard.removeAllDataForAllkeys()
+        print("Pressed")
+    }
+    
+    
     @IBAction func nextButton(_ sender: UIButton) {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "ViewController3") as? ViewController3
         
-        self.present(vc!, animated: true)
-        //self.navigationController?.pushViewController(vc!, animated: true)
+        //self.filteredDict4 = self.dict4.filter{$0.value > 0}
+        
+        
+        
+        
+        
+        //vc?.array = self.filteredArray3
+        vc?.imageDict = self.imageDict
+        
+        vc?.newDict = self.dict4
+        print(dict4)
+        
+        for i in self.filteredArray3{
+            if dict4.contains(where: {$0.key == i.id}){
+                self.filteredArray4.append(i)
+            }
+        }
+        
+        vc?.array = self.filteredArray4
+        //self.present(vc!, animated: true)
+        self.navigationController?.pushViewController(vc!, animated: true)
         
     }
     
@@ -27,7 +56,20 @@ class ViewController2: UIViewController {
     var filteredArray = [
         [productsArray]
     ]()
+    
+    var filteredArray2 = [productsArray: IndexPath]()
+    
+    var filteredArray3 = [productsArray]()
+    var filteredArray4 = [productsArray]()
+    
+    
     var imageDict = [String: UIImage]()
+    
+    var mainQuantity = 0
+    var mainTotal = 0
+    
+    
+    var dict4 = [Int: Int]()
     
     override func viewWillAppear(_ animated: Bool) {
         
@@ -37,45 +79,88 @@ class ViewController2: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
+        self.mainQuantityLabel.text = "\(mainQuantity)"
         self.table.delegate = self
         self.table.dataSource = self
         let nib = UINib(nibName: "MainCell", bundle: nil)
         self.table.register(nib, forCellReuseIdentifier: "MainCell")
         
-        ProductManager.shared.getProductData(urlString: "https://dummyjson.com/products")
-        NetworkManager.shared.getData(string: "https://dummyjson.com/products") { (data: ProductModel?, error) in
-            
-            if let error {
-                print(error)
-                return
-            }
-            
-            guard let data else {
-                return
-            }
-            
-            DispatchQueue.main.async {
-                self.array.append(data)
-                self.table.reloadData()
-                print(self.array.first?.products.count)
+        if UserDefaults.standard.object(forKey: UserDefaults.UserDefaultsKeys.productData.rawValue) == nil {
+            ProductManager.shared.getProductData(urlString: "https://dummyjson.com/products")
+            NetworkManager.shared.getData(string: "https://dummyjson.com/products") { (data: ProductModel?, error) in
                 
-                for i in (self.array.first?.products)! {
-                
-                    
-                    if self.filteredArray.contains(where: {$0.contains(where: {$0.category == i.category})}) {
-                        print("x")
-                        
-                    } else {
-                        print(i.category)
-                        self.filteredArray.append((self.array.first?.products.filter {$0.category == i.category})!)
-                    }
+                if let error {
+                    print(error)
+                    return
                 }
                 
-                for i in 0...(self.array.first?.products.count)!-1 {
-                    self.downloadImage(url: (self.array.first?.products[i].images.first)!)
+                guard let data else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    
+                    UserDefaults.standard.objectArray = [data]
+                    self.array = [data]
+                    print("GOT FROM NETWORK")
+                    
+                    //                if UserDefaults.standard.object(forKey: UserDefaults.UserDefaultsKeys.productData.rawValue) == nil {
+                    //
+                    //                    UserDefaults.standard.objectArray = [data]
+                    //
+                    //                    self.array = [data]
+                    //                    print("GOT FROM NETWORK")
+                    //                } else {
+                    //
+                    //                    let x = UserDefaults.standard.objectArray
+                    //                    self.array = x
+                    //                    print("GOT FROM LOCAL")
+                    //                }
+                    
+                    self.table.reloadData()
+                    
+                    for i in (self.array.first?.products)! {
+                        
+                        
+                        if self.filteredArray.contains(where: {$0.contains(where: {$0.category == i.category})}) {
+                            
+                        } else {
+                            self.filteredArray.append((self.array.first?.products.filter {$0.category == i.category})!)
+                        }
+                    }
+                    
+                    for i in 0...(self.array.first?.products.count)!-1 {
+                        self.downloadImage(url: (self.array.first?.products[i].images.first)!)
+                    }
+                    
                 }
             }
         }
+        else {
+            
+            let x = UserDefaults.standard.objectArray
+            self.array = x
+            print("GOT FROM LOCAL")
+            
+            self.table.reloadData()
+            
+            for i in (self.array.first?.products)! {
+                
+                
+                if self.filteredArray.contains(where: {$0.contains(where: {$0.category == i.category})}) {
+                    
+                } else {
+                    self.filteredArray.append((self.array.first?.products.filter {$0.category == i.category})!)
+                }
+            }
+            
+            for i in 0...(self.array.first?.products.count)!-1 {
+                self.downloadImage(url: (self.array.first?.products[i].images.first)!)
+            }
+        }
+        
     }
     
     func downloadImage(url: String) {
@@ -130,18 +215,101 @@ extension ViewController2: UITableViewDelegate, UITableViewDataSource {
         cell.layer.cornerRadius = 14.0
         cell.layer.borderColor = UIColor.lightGray.cgColor
         
+        cell.delegate = self
         cell.index = indexPath
         //cell.brandLabel.text = array.first?.products[indexPath.row].brand
         cell.brandLabel.text = self.filteredArray[indexPath.section][indexPath.row].brand
         cell.stockLabel.text = "stock : \((self.filteredArray[indexPath.section][indexPath.row].stock))"
         cell.priceLabel.text = "price: \((self.filteredArray[indexPath.section][indexPath.row].price))"
-        cell.quantityLabel.text = "\(cell.dict[indexPath] ?? 0)"
+        //cell.quantityLabel.text = "\(cell.dict[indexPath] ?? 0)"
+        
+        cell.quantityLabel.text = "\(self.dict4[self.filteredArray[indexPath.section][indexPath.row].id] ?? 0)"
+        
         cell.productImage.image = self.imageDict[self.filteredArray[indexPath.section][indexPath.row].images.first ?? "Error"]
+        cell.maxQ = self.filteredArray[indexPath.section][indexPath.row].stock
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 139.0
     }
+    
+    
 }
+
+protocol passData {
+    func plusQuantity()
+    func minusQuantity()
+    func indexPlus(index: IndexPath, quantity: Int)
+    func indexMinus(index: IndexPath, quantity: Int)
+}
+
+extension ViewController2: passData{
+    
+    
+    func indexPlus(index: IndexPath, quantity: Int) {
+        //self.filteredArray2?.updateValue(index, forKey: filteredArray[index.section][index.row])
+        self.filteredArray3.append(filteredArray[index.section][index.row])
+        self.filteredArray2[filteredArray[index.section][index.row]] = index
+        self.mainTotal += self.filteredArray[index.section][index.row].price
+        self.mainTotalLabel.text = "\(self.mainTotal)"
+        
+        self.dict4[filteredArray[index.section][index.row].id] = quantity
+        
+        self.dict4 = self.dict4.filter{$0.value > 0}
+        
+    }
+    
+    func indexMinus(index: IndexPath, quantity: Int) {
+        self.mainTotal -= self.filteredArray[index.section][index.row].price
+        self.mainTotalLabel.text = "\(self.mainTotal)"
+        self.dict4[filteredArray[index.section][index.row].id] = quantity
+        //self.filteredArray3.append(filteredArray[index.section][index.row])
+        
+        self.dict4 = self.dict4.filter{$0.value > 0}
+    }
+    
+    func plusQuantity() {
+        self.mainQuantity += 1
+        self.mainQuantityLabel.text = "\(mainQuantity)"
+        
+    }
+    
+    func minusQuantity() {
+        if self.mainQuantity > 0 {
+            self.mainQuantity -= 1
+            self.mainQuantityLabel.text = "\(mainQuantity)"
+        }
+    }
+}
+
+extension UserDefaults {
+    
+    enum UserDefaultsKeys: String, CaseIterable {
+        case productData
+        case productPhotos
+    }
+    
+    var objectArray: [ProductModel] {
+        
+        get {
+            let decoded = try? JSONDecoder().decode([ProductModel].self, from: UserDefaults.standard.object(forKey: UserDefaults.UserDefaultsKeys.productData.rawValue) as! Data)
+            
+            return decoded!
+        }
+        set {
+            let encode = try? JSONEncoder().encode(newValue)
+            UserDefaults.standard.set(encode, forKey: UserDefaults.UserDefaultsKeys.productData.rawValue)
+            
+        }
+    }
+    
+    func removeAllDataForAllkeys() {
+        UserDefaultsKeys.allCases.map { UserDefaults.standard.removeObject(forKey: $0.rawValue) }
+    }
+}
+

@@ -6,15 +6,19 @@
 //
 
 import UIKit
+import Network
 
 class ViewController: UIViewController {
     
     @IBOutlet weak var emailTF: UITextField!
     @IBOutlet weak var passwordTF: UITextField!
     
+    var checkConnection = Bool()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.monitoringNetwork()
         initialSetup()
         
         
@@ -41,7 +45,7 @@ class ViewController: UIViewController {
     }
     
     func showAlert() {
-        let alert = UIAlertController(title: nil, message: "მიმდინარეობს მონაცემების ჩატვირთვა...", preferredStyle: .alert)
+        let alert = UIAlertController(title: nil, message: "ჩატვირთვა...", preferredStyle: .alert)
 
         let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
         loadingIndicator.hidesWhenStopped = true
@@ -52,38 +56,73 @@ class ViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    func showInternetAlert() {
+        let alert = UIAlertController(title: "კავშირის პრობლემა", message: "გთხოვთ შეამოწმოთ ინტერნეტთან კავშირი", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "Action", style: .default, handler: { _ in
+//                print("Alert 1 action pressed")
+//            }))
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+        
+        present(alert, animated: true)
+    }
+    
+    func monitoringNetwork() {
+        
+        let monitor = NWPathMonitor(requiredInterfaceType: .wiredEthernet)
+        monitor.pathUpdateHandler = { path in
+           if path.status == .satisfied {
+              
+               self.checkConnection = true
+           } else {
+               
+               self.checkConnection = false
+           }
+        }
+        let queue = DispatchQueue(label: "Monitor")
+        monitor.start(queue: queue)
+
+        
+    }
+    
     @IBAction func signIn(_ sender: UIButton) {
         
-        if emailTF.text?.isValidEmail() == true {
+        self.monitoringNetwork()
+        if checkConnection == true {
+            print(checkConnection)
             
-            if passwordTF.text != "" {
+            if emailTF.text?.isValidEmail() == true {
                 
-                showAlert()
-                DispatchQueue.main.asyncAfter(deadline: .now()+3) {
+                if passwordTF.text != "" {
                     
-                    self.dismiss(animated: true)
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let vc = storyboard.instantiateViewController(identifier: "ViewController2") as! ViewController2
-                    
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    showAlert()
+                    DispatchQueue.main.asyncAfter(deadline: .now()+3) {
+                        
+                        self.dismiss(animated: true)
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        let vc = storyboard.instantiateViewController(identifier: "ViewController2") as! ViewController2
+                        
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                } else {
+                    passwordTF.layer.borderWidth = 2
+                    passwordTF.layer.borderColor = UIColor.red.cgColor
+                    passwordTF.shake()
                 }
+                
             } else {
-                passwordTF.layer.borderWidth = 2
-                passwordTF.layer.borderColor = UIColor.red.cgColor
-                passwordTF.shake()
+                
+                emailTF.layer.borderWidth = 2
+                emailTF.layer.borderColor = UIColor.red.cgColor
+                emailTF.shake()
+                
+                if passwordTF.text == "" {
+                    passwordTF.layer.borderWidth = 2
+                    passwordTF.layer.borderColor = UIColor.red.cgColor
+                    passwordTF.shake()
+                }
             }
-            
         } else {
-            
-            emailTF.layer.borderWidth = 2
-            emailTF.layer.borderColor = UIColor.red.cgColor
-            emailTF.shake()
-            
-            if passwordTF.text == "" {
-                passwordTF.layer.borderWidth = 2
-                passwordTF.layer.borderColor = UIColor.red.cgColor
-                passwordTF.shake()
-            }
+            showInternetAlert()
         }
     }
     

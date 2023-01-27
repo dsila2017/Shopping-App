@@ -29,7 +29,6 @@ class ProductManager {
                 return
             }
             DispatchQueue.main.async {
-                print("We have got data")
             }
             
         }
