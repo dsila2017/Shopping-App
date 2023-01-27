@@ -28,17 +28,9 @@ class ViewController2: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "ViewController3") as? ViewController3
         
-        //self.filteredDict4 = self.dict4.filter{$0.value > 0}
-        
-        
-        
-        
-        
-        //vc?.array = self.filteredArray3
         vc?.imageDict = self.imageDict
-        
         vc?.newDict = self.dict4
-        print(dict4)
+        vc?.delegate = self
         
         for i in self.filteredArray3{
             if dict4.contains(where: {$0.key == i.id}){
@@ -80,6 +72,9 @@ class ViewController2: UIViewController {
         super.viewDidLoad()
         
         
+        UserDefaults.standard.removeAllDataForAllkeys()
+        
+        
         
         self.mainQuantityLabel.text = "\(mainQuantity)"
         self.table.delegate = self
@@ -105,19 +100,6 @@ class ViewController2: UIViewController {
                     UserDefaults.standard.objectArray = [data]
                     self.array = [data]
                     print("GOT FROM NETWORK")
-                    
-                    //                if UserDefaults.standard.object(forKey: UserDefaults.UserDefaultsKeys.productData.rawValue) == nil {
-                    //
-                    //                    UserDefaults.standard.objectArray = [data]
-                    //
-                    //                    self.array = [data]
-                    //                    print("GOT FROM NETWORK")
-                    //                } else {
-                    //
-                    //                    let x = UserDefaults.standard.objectArray
-                    //                    self.array = x
-                    //                    print("GOT FROM LOCAL")
-                    //                }
                     
                     self.table.reloadData()
                     
@@ -165,31 +147,48 @@ class ViewController2: UIViewController {
     
     func downloadImage(url: String) {
         
-        guard let newUrl = URL(string: url) else {return}
-        let session = URLSession(configuration: .default)
-
-        let downloadPicture = session.dataTask(with: newUrl) { (data, response, error) in
+        if UserDefaults.standard.object(forKey: UserDefaults.UserDefaultsKeys.productPhotos.rawValue) == nil {
             
-            if let error {
-                print(error)
-            } else {
+            guard let newUrl = URL(string: url) else {return}
+            let session = URLSession(configuration: .default)
+            
+            let downloadPicture = session.dataTask(with: newUrl) { (data, response, error) in
                 
-                if let response = response as? HTTPURLResponse {
+                if let error {
+                    print(error)
+                } else {
                     
-                    if let imageData = data {
+                    if let response = response as? HTTPURLResponse {
                         
-                        DispatchQueue.main.async {
-                            self.imageDict[url] = UIImage(data: imageData)!
-                            self.table.reloadData()
+                        if let imageData = data {
+                            
+                            DispatchQueue.main.async {
+                                
+                                UserDefaults.standard.photoArray = imageData
+                                self.imageDict[url] = UIImage(data: imageData)!
+                                
+                                //UserDefaults.standard.photoArray = data!
+                                
+                                self.table.reloadData()
+                            }
+                        } else {
+                            print("Couldn't get image: Image is nil")
                         }
                     } else {
-                        print("Couldn't get image: Image is nil")
+                        print("Couldn't get response code for some reason")
                     }
-                } else {
-                    print("Couldn't get response code for some reason")
                 }
+            }.resume()
+        } else {
+            
+            DispatchQueue.main.async {
+                
+                self.imageDict[url] = UIImage(data: UserDefaults.standard.photoArray)!
+                
+                self.table.reloadData()
             }
-        }.resume()
+            
+        }
     }
 }
 
@@ -205,7 +204,6 @@ extension ViewController2: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return self.filteredArray[section].count
-        //return array.first?.products.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -283,6 +281,7 @@ extension ViewController2: passData{
         if self.mainQuantity > 0 {
             self.mainQuantity -= 1
             self.mainQuantityLabel.text = "\(mainQuantity)"
+           
         }
     }
 }
@@ -292,6 +291,10 @@ extension UserDefaults {
     enum UserDefaultsKeys: String, CaseIterable {
         case productData
         case productPhotos
+        case mainQ
+        case filteredArray3
+        case filteredArray4
+        case dict
     }
     
     var objectArray: [ProductModel] {
@@ -308,8 +311,97 @@ extension UserDefaults {
         }
     }
     
+    var photoArray: Data {
+        
+        get {
+            let decoded = try? JSONDecoder().decode(Data.self, from: UserDefaults.standard.object(forKey: UserDefaults.UserDefaultsKeys.productPhotos.rawValue) as! Data)
+            
+            return decoded!
+        }
+        set {
+            let encode = try? JSONEncoder().encode(newValue)
+            UserDefaults.standard.set(encode, forKey: UserDefaults.UserDefaultsKeys.productPhotos.rawValue)
+            
+        }
+    }
+    
+    var mainQ: Int? {
+        
+        get {
+            Int(string(forKey: UserDefaults.UserDefaultsKeys.mainQ.rawValue) ?? "")
+        }
+        
+        set {
+            set(newValue, forKey: UserDefaults.UserDefaultsKeys.mainQ.rawValue)
+        }
+    }
+    
+    var filteredArray3: [productsArray] {
+        
+        get {
+            let decoded = try? JSONDecoder().decode([productsArray].self, from: UserDefaults.standard.object(forKey: UserDefaults.UserDefaultsKeys.filteredArray3.rawValue) as! Data)
+            
+            return decoded!
+        }
+        set {
+            let encode = try? JSONEncoder().encode(newValue)
+            UserDefaults.standard.set(encode, forKey: UserDefaults.UserDefaultsKeys.filteredArray3.rawValue)
+            
+        }
+    }
+    
+    var filteredArray4: [productsArray] {
+        
+        get {
+            let decoded = try? JSONDecoder().decode([productsArray].self, from: UserDefaults.standard.object(forKey: UserDefaults.UserDefaultsKeys.filteredArray4.rawValue) as! Data)
+            
+            return decoded!
+        }
+        set {
+            let encode = try? JSONEncoder().encode(newValue)
+            UserDefaults.standard.set(encode, forKey: UserDefaults.UserDefaultsKeys.filteredArray4.rawValue)
+            
+        }
+    }
+    
+    var dict: [Int : Int] {
+        
+        get {
+            let decoded = try? JSONDecoder().decode([Int : Int].self, from: UserDefaults.standard.object(forKey: UserDefaults.UserDefaultsKeys.dict.rawValue) as! Data)
+            
+            return decoded!
+        }
+        set {
+            let encode = try? JSONEncoder().encode(newValue)
+            UserDefaults.standard.set(encode, forKey: UserDefaults.UserDefaultsKeys.dict.rawValue)
+            
+        }
+    }
+    
     func removeAllDataForAllkeys() {
         UserDefaultsKeys.allCases.map { UserDefaults.standard.removeObject(forKey: $0.rawValue) }
     }
+}
+
+protocol updateQuantity {
+    func passDatax(array :[Int: Int])
+}
+
+extension ViewController2: updateQuantity {
+    func passDatax(array : [Int: Int]) {
+        for i in self.filteredArray[0] {
+            for p in array {
+                if i.id == p.key {
+                    
+                    //სტოკის დაკლება მინდა ამით, მარა არ მაკლებინებს და ვერ მივხვდი რატო
+                    //i.stock = p.value
+                    
+                }
+            }
+            
+        }
+    }
+    
+    
 }
 

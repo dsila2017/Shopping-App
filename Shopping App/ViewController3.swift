@@ -33,12 +33,19 @@ class ViewController3: UIViewController {
     var newTotalArray = [Int]()
     var newTotalNumber = 0
     
+    var delegate: updateQuantity?
+    
     @IBAction func nextButton(_ sender: UIButton) {
         
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if self.credits >= Int(self.totalNumber.text!)! {
+            
+            delegate?.passDatax(array: newDict)
+            print("Updating")
+            
             let vc = storyboard.instantiateViewController(withIdentifier:  "SuccessVC") as? SuccessVC
+            vc?.delegate = self
             
             
             self.present(vc!, animated: true)
@@ -135,5 +142,20 @@ extension ViewController3: Passer {
         
         self.updateValue()
     }
+}
+
+protocol backToMain{
+    func back()
+}
+
+extension ViewController3: backToMain {
+    func back() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "ViewController2") as? ViewController2
+        
+        self.navigationController?.pushViewController(vc!, animated: true)
+    }
+    
+    
 }
 

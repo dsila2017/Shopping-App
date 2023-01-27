@@ -8,10 +8,14 @@
 import UIKit
 
 class SuccessVC: UIViewController {
-
+    
+    var delegate: backToMain?
+    
     @IBAction func backButton(_ sender: UIButton) {
         
+        delegate?.back()
         self.dismiss(animated: true)
+        
     }
     
     override func viewDidLoad() {

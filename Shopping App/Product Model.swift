@@ -9,21 +9,21 @@ import Foundation
 
 struct ProductModel: Codable {
     
-    let products: [productsArray]
+    var products: [productsArray]
 }
 
 struct productsArray: Codable, Hashable {
     
-    let id: Int
-    let title: String
-    let description: String
-    let price: Int
-    let discountPercentage: Double
-    let rating: Double
-    let stock: Int
-    let brand: String
-    let category: String
-    let thumbnail: String
-    let images: [String]
+    var id: Int
+    var title: String
+    var description: String
+    var price: Int
+    var discountPercentage: Double
+    var rating: Double
+    var stock: Int
+    var brand: String
+    var category: String
+    var thumbnail: String
+    var images: [String]
 }
 
