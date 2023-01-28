@@ -18,6 +18,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        UserDefaults.standard.removeAllDataForAllkeys()
+        
         self.monitoringNetwork()
         initialSetup()
         

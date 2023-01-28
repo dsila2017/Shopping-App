@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct ProductModel: Codable {
+class ProductModel: Codable {
     
     var products: [productsArray]
 }
 
-struct productsArray: Codable, Hashable {
+class productsArray: Codable {
     
     var id: Int
     var title: String

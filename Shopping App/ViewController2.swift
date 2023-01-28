@@ -17,9 +17,6 @@ class ViewController2: UIViewController {
     @IBOutlet weak var mainTotalLabel: UILabel!
     
     @IBAction func clearNetwork(_ sender: UIButton) {
-        
-        UserDefaults.standard.removeAllDataForAllkeys()
-        print("Pressed")
     }
     
     
@@ -35,10 +32,15 @@ class ViewController2: UIViewController {
         for i in self.filteredArray3{
             if dict4.contains(where: {$0.key == i.id}){
                 self.filteredArray4.append(i)
+                UserDefaults.standard.filteredArray4 = self.filteredArray4
             }
         }
-        
-        vc?.array = self.filteredArray4
+        if UserDefaults.standard.object(forKey: UserDefaults.UserDefaultsKeys.filteredArray4.rawValue) == nil {
+            UserDefaults.standard.filteredArray4 = self.filteredArray4
+            vc?.array = self.filteredArray4
+        } else {
+            vc?.array = self.filteredArray4
+        }
         //self.present(vc!, animated: true)
         self.navigationController?.pushViewController(vc!, animated: true)
         
@@ -49,7 +51,7 @@ class ViewController2: UIViewController {
         [productsArray]
     ]()
     
-    var filteredArray2 = [productsArray: IndexPath]()
+    //var filteredArray2 = [productsArray: IndexPath]()
     
     var filteredArray3 = [productsArray]()
     var filteredArray4 = [productsArray]()
@@ -72,7 +74,7 @@ class ViewController2: UIViewController {
         super.viewDidLoad()
         
         
-        UserDefaults.standard.removeAllDataForAllkeys()
+        //UserDefaults.standard.removeAllDataForAllkeys()
         
         
         
@@ -99,6 +101,7 @@ class ViewController2: UIViewController {
                     
                     UserDefaults.standard.objectArray = [data]
                     self.array = [data]
+                    
                     print("GOT FROM NETWORK")
                     
                     self.table.reloadData()
@@ -122,8 +125,8 @@ class ViewController2: UIViewController {
         }
         else {
             
-            let x = UserDefaults.standard.objectArray
-            self.array = x
+            self.array = UserDefaults.standard.objectArray
+            
             print("GOT FROM LOCAL")
             
             self.table.reloadData()
@@ -218,12 +221,15 @@ extension ViewController2: UITableViewDelegate, UITableViewDataSource {
         //cell.brandLabel.text = array.first?.products[indexPath.row].brand
         cell.brandLabel.text = self.filteredArray[indexPath.section][indexPath.row].brand
         cell.stockLabel.text = "stock : \((self.filteredArray[indexPath.section][indexPath.row].stock))"
+        //print(self.filteredArray[indexPath.section][indexPath.row].stock)
         cell.priceLabel.text = "price: \((self.filteredArray[indexPath.section][indexPath.row].price))"
         //cell.quantityLabel.text = "\(cell.dict[indexPath] ?? 0)"
         
         cell.quantityLabel.text = "\(self.dict4[self.filteredArray[indexPath.section][indexPath.row].id] ?? 0)"
         
         cell.productImage.image = self.imageDict[self.filteredArray[indexPath.section][indexPath.row].images.first ?? "Error"]
+        
+        
         cell.maxQ = self.filteredArray[indexPath.section][indexPath.row].stock
         
         return cell
@@ -252,13 +258,16 @@ extension ViewController2: passData{
     func indexPlus(index: IndexPath, quantity: Int) {
         //self.filteredArray2?.updateValue(index, forKey: filteredArray[index.section][index.row])
         self.filteredArray3.append(filteredArray[index.section][index.row])
-        self.filteredArray2[filteredArray[index.section][index.row]] = index
+        
+        //self.filteredArray2[filteredArray[index.section][index.row]] = index
         self.mainTotal += self.filteredArray[index.section][index.row].price
         self.mainTotalLabel.text = "\(self.mainTotal)"
         
         self.dict4[filteredArray[index.section][index.row].id] = quantity
         
         self.dict4 = self.dict4.filter{$0.value > 0}
+        
+        
         
     }
     
@@ -269,6 +278,7 @@ extension ViewController2: passData{
         //self.filteredArray3.append(filteredArray[index.section][index.row])
         
         self.dict4 = self.dict4.filter{$0.value > 0}
+        
     }
     
     func plusQuantity() {
@@ -295,6 +305,7 @@ extension UserDefaults {
         case filteredArray3
         case filteredArray4
         case dict
+        
     }
     
     var objectArray: [ProductModel] {
@@ -378,6 +389,8 @@ extension UserDefaults {
         }
     }
     
+    
+    
     func removeAllDataForAllkeys() {
         UserDefaultsKeys.allCases.map { UserDefaults.standard.removeObject(forKey: $0.rawValue) }
     }
@@ -389,19 +402,15 @@ protocol updateQuantity {
 
 extension ViewController2: updateQuantity {
     func passDatax(array : [Int: Int]) {
-        for i in self.filteredArray[0] {
+        for i in self.array[0].products {
             for p in array {
                 if i.id == p.key {
                     
-                    //სტოკის დაკლება მინდა ამით, მარა არ მაკლებინებს და ვერ მივხვდი რატო
-                    //i.stock = p.value
-                    
+                    i.stock -= p.value
+                    UserDefaults.standard.objectArray = self.array
                 }
             }
-            
         }
     }
-    
-    
 }
 
