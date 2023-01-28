@@ -357,11 +357,19 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OAC-Mv-f7R">
+                                        <rect key="frame" x="198" y="56" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
+                                    <constraint firstItem="OAC-Mv-f7R" firstAttribute="top" secondItem="4s9-EZ-eSZ" secondAttribute="bottom" id="TB9-8J-cMV"/>
                                     <constraint firstItem="4s9-EZ-eSZ" firstAttribute="centerX" secondItem="E7c-Zc-8Ew" secondAttribute="centerX" id="gf2-CZ-kUa"/>
                                     <constraint firstItem="4s9-EZ-eSZ" firstAttribute="centerY" secondItem="E7c-Zc-8Ew" secondAttribute="centerY" id="mJG-yp-USl"/>
+                                    <constraint firstItem="OAC-Mv-f7R" firstAttribute="centerX" secondItem="E7c-Zc-8Ew" secondAttribute="centerX" id="saV-4p-nHY"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PEr-LM-EEQ" userLabel="Mid">
@@ -517,6 +525,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="creditsLabel" destination="OAC-Mv-f7R" id="3UR-PR-YCs"/>
                         <outlet property="delivery" destination="Lah-Rs-3xL" id="TQr-2m-7g3"/>
                         <outlet property="deliveryNumber" destination="cPN-zC-88I" id="pWX-xZ-mR3"/>
                         <outlet property="fee" destination="Ft5-mN-5nx" id="6rF-Th-cKT"/>

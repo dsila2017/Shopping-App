@@ -20,7 +20,9 @@ class ViewController3: UIViewController {
     @IBOutlet weak var deliveryNumber: UILabel!
     @IBOutlet weak var totalNumber: UILabel!
     
-    var credits = 1000000
+    @IBOutlet weak var creditsLabel: UILabel!
+    
+    var credits: Int?
     
     var totals = [IndexPath: Int]()
     
@@ -39,11 +41,15 @@ class ViewController3: UIViewController {
         
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if self.credits >= Int(self.totalNumber.text!)! {
+        if self.credits! >= Int(self.totalNumber.text!)! {
             
             delegate?.passDatax(array: newDict)
             print("Updating")
             
+            updateValue()
+            self.credits! -= Int(self.totalNumber.text!) ?? 1
+            print(self.credits)
+            UserDefaults.standard.credits = self.credits!
             let vc = storyboard.instantiateViewController(withIdentifier:  "SuccessVC") as? SuccessVC
             vc?.delegate = self
             
@@ -62,6 +68,15 @@ class ViewController3: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if UserDefaults.standard.value(forKey: UserDefaults.UserDefaultsKeys1.credits.rawValue) == nil {
+            print("NILLLLLL")
+            UserDefaults.standard.credits = 10000000
+            self.credits = UserDefaults.standard.credits
+        } else {
+            print("NOT nill")
+            self.credits = UserDefaults.standard.credits
+        }
+        print(UserDefaults.standard.credits)
         for i in array {
             if filteredArray.contains(where: {$0.id == i.id}) {
                 
@@ -70,6 +85,8 @@ class ViewController3: UIViewController {
                 filteredArray.append(i)
             }
         }
+        
+        self.creditsLabel.text = "Credits: \(UserDefaults.standard.credits)"
         
         totalPrice.text = "total price"
         fee.text = "fee"
@@ -159,3 +176,21 @@ extension ViewController3: backToMain {
     
 }
 
+extension UserDefaults {
+    enum UserDefaultsKeys1: String, CaseIterable {
+        
+        case credits
+        
+    }
+    
+    var credits: Int {
+        
+        get {
+            UserDefaults.standard.integer(forKey: UserDefaults.UserDefaultsKeys1.credits.rawValue) as! Int
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: UserDefaults.UserDefaultsKeys1.credits.rawValue)
+        }
+    }
+    
+}
