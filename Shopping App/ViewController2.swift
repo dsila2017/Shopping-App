@@ -62,6 +62,8 @@ class ViewController2: UIViewController {
     var mainQuantity = 0
     var mainTotal = 0
     
+    var imageArray = [[String: Data]]()
+    
     
     var dict4 = [Int: Int]()
     
@@ -141,8 +143,8 @@ class ViewController2: UIViewController {
                 }
             }
             
-            for i in 0...(self.array.first?.products.count)!-1 {
-                self.downloadImage(url: (self.array.first?.products[i].images.first)!)
+            for i in self.array[0].products {
+                self.downloadImage(url: (i.images.first)!)
             }
         }
         
@@ -170,7 +172,8 @@ class ViewController2: UIViewController {
                                 UserDefaults.standard.photoArray = imageData
                                 self.imageDict[url] = UIImage(data: imageData)!
                                 
-                                //UserDefaults.standard.photoArray = data!
+                                self.imageArray.append([url : imageData])
+                                UserDefaults.standard.imageDict = self.imageArray
                                 
                                 self.table.reloadData()
                             }
@@ -186,9 +189,13 @@ class ViewController2: UIViewController {
             
             DispatchQueue.main.async {
                 
-                self.imageDict[url] = UIImage(data: UserDefaults.standard.photoArray)!
-                
-                self.table.reloadData()
+                for i in UserDefaults.standard.imageDict{
+                    if i.contains(where: {$0.key == url}){
+                        
+                        self.imageDict[url] = UIImage(data: i.first(where: {$0.key == url})!.value)
+                        self.table.reloadData()
+                    }
+                }
             }
             
         }
@@ -241,6 +248,8 @@ extension ViewController2: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 139.0
     }
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    }
     
     
 }
@@ -291,7 +300,7 @@ extension ViewController2: passData{
         if self.mainQuantity > 0 {
             self.mainQuantity -= 1
             self.mainQuantityLabel.text = "\(mainQuantity)"
-           
+            
         }
     }
 }
@@ -305,6 +314,7 @@ extension UserDefaults {
         case filteredArray3
         case filteredArray4
         case dict
+        case imageDict
         
     }
     
@@ -385,6 +395,20 @@ extension UserDefaults {
         set {
             let encode = try? JSONEncoder().encode(newValue)
             UserDefaults.standard.set(encode, forKey: UserDefaults.UserDefaultsKeys.dict.rawValue)
+            
+        }
+    }
+    
+    var imageDict: [[String: Data]] {
+        
+        get {
+            let decoded = try? JSONDecoder().decode([[String: Data]].self, from: UserDefaults.standard.object(forKey: UserDefaults.UserDefaultsKeys.imageDict.rawValue) as! Data)
+            
+            return decoded!
+        }
+        set {
+            let encode = try? JSONEncoder().encode(newValue)
+            UserDefaults.standard.set(encode, forKey: UserDefaults.UserDefaultsKeys.imageDict.rawValue)
             
         }
     }
