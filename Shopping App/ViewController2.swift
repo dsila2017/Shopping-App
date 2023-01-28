@@ -71,6 +71,8 @@ class ViewController2: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
+        
+        
         self.navigationController?.navigationBar.isHidden = true
         
         if UserDefaults.standard.object(forKey: UserDefaults.UserDefaultsKeys.filteredArray3.rawValue) != nil {

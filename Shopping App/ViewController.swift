@@ -14,11 +14,25 @@ class ViewController: UIViewController {
     @IBOutlet weak var passwordTF: UITextField!
     
     var checkConnection = Bool()
+    var checkLogin = Bool()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //UserDefaults.standard.removeAllDataForAllkeys()
+        
+        if UserDefaults.standard.login == 1 {
+            
+            print("going")
+            self.dismiss(animated: true)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(identifier: "ViewController2") as! ViewController2
+            
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
+        UserDefaults.standard.login = 1
+        print(UserDefaults.standard.login)
         
         self.monitoringNetwork()
         initialSetup()

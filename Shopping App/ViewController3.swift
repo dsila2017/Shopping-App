@@ -180,6 +180,7 @@ extension UserDefaults {
     enum UserDefaultsKeys1: String, CaseIterable {
         
         case credits
+        case login
         
     }
     
@@ -190,6 +191,16 @@ extension UserDefaults {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: UserDefaults.UserDefaultsKeys1.credits.rawValue)
+        }
+    }
+    
+    var login: Int {
+        
+        get {
+            UserDefaults.standard.integer(forKey: UserDefaults.UserDefaultsKeys1.login.rawValue) as! Int
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: UserDefaults.UserDefaultsKeys1.login.rawValue)
         }
     }
     
