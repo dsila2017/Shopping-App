@@ -29,18 +29,20 @@ class ViewController2: UIViewController {
         vc?.newDict = self.dict4
         vc?.delegate = self
         
-        for i in self.filteredArray3{
-            if dict4.contains(where: {$0.key == i.id}){
-                self.filteredArray4.append(i)
-                UserDefaults.standard.filteredArray4 = self.filteredArray4
-            }
-        }
-        if UserDefaults.standard.object(forKey: UserDefaults.UserDefaultsKeys.filteredArray4.rawValue) == nil {
-            UserDefaults.standard.filteredArray4 = self.filteredArray4
-            vc?.array = self.filteredArray4
-        } else {
-            vc?.array = self.filteredArray4
-        }
+        vc?.array = self.filteredArray3
+        
+//        for i in self.filteredArray3{
+//            if dict4.contains(where: {$0.key == i.id}){
+//                self.filteredArray4.append(i)
+//                UserDefaults.standard.filteredArray4 = self.filteredArray4
+//            }
+//        }
+//        if UserDefaults.standard.object(forKey: UserDefaults.UserDefaultsKeys.filteredArray4.rawValue) == nil {
+//            UserDefaults.standard.filteredArray4 = self.filteredArray4
+//            vc?.array = self.filteredArray4
+//        } else {
+//            vc?.array = self.filteredArray4
+//        }
         //self.present(vc!, animated: true)
         self.navigationController?.pushViewController(vc!, animated: true)
         
@@ -70,6 +72,11 @@ class ViewController2: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         self.navigationController?.navigationBar.isHidden = true
+        
+        if UserDefaults.standard.object(forKey: UserDefaults.UserDefaultsKeys.filteredArray3.rawValue) != nil {
+            
+            self.filteredArray3 = UserDefaults.standard.filteredArray3
+        }
     }
     
     override func viewDidLoad() {
@@ -266,7 +273,16 @@ extension ViewController2: passData{
     
     func indexPlus(index: IndexPath, quantity: Int) {
         //self.filteredArray2?.updateValue(index, forKey: filteredArray[index.section][index.row])
-        self.filteredArray3.append(filteredArray[index.section][index.row])
+        if UserDefaults.standard.object(forKey: UserDefaults.UserDefaultsKeys.filteredArray3.rawValue) == nil {
+            print("nilling")
+            self.filteredArray3.append(filteredArray[index.section][index.row])
+            UserDefaults.standard.filteredArray3 = self.filteredArray3
+        } else {
+            print("nonononon")
+            self.filteredArray3 = UserDefaults.standard.filteredArray3
+            self.filteredArray3.append(filteredArray[index.section][index.row])
+            UserDefaults.standard.filteredArray3 = self.filteredArray3
+        }
         
         //self.filteredArray2[filteredArray[index.section][index.row]] = index
         self.mainTotal += self.filteredArray[index.section][index.row].price
