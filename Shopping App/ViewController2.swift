@@ -26,7 +26,7 @@ class ViewController2: UIViewController {
         let vc = storyboard.instantiateViewController(withIdentifier: "ViewController3") as? ViewController3
         
         vc?.imageDict = self.imageDict
-        vc?.newDict = self.dict4
+        vc?.newDict = UserDefaults.standard.dict
         vc?.delegate = self
         
         vc?.array = self.filteredArray3
@@ -293,6 +293,7 @@ extension ViewController2: passData{
         self.dict4[filteredArray[index.section][index.row].id] = quantity
         
         self.dict4 = self.dict4.filter{$0.value > 0}
+        UserDefaults.standard.dict = self.dict4
         
         
         
@@ -305,6 +306,7 @@ extension ViewController2: passData{
         //self.filteredArray3.append(filteredArray[index.section][index.row])
         
         self.dict4 = self.dict4.filter{$0.value > 0}
+        UserDefaults.standard.dict = self.dict4
         
     }
     

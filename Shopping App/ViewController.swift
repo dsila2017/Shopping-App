@@ -84,7 +84,7 @@ class ViewController: UIViewController {
     
     func monitoringNetwork() {
         
-        let monitor = NWPathMonitor(requiredInterfaceType: .wiredEthernet)
+        let monitor = NWPathMonitor(requiredInterfaceType: .wifi)
         monitor.pathUpdateHandler = { path in
            if path.status == .satisfied {
               

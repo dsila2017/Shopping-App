@@ -30,6 +30,7 @@ class ViewController3: UIViewController {
     var imageDict = [String: UIImage]()
     
     var filteredArray = [productsArray]()
+    var filteredArray2 = [productsArray]()
     
     var newDict = [Int: Int]()
     var newTotalArray = [Int]()
@@ -86,6 +87,14 @@ class ViewController3: UIViewController {
             }
         }
         
+        for i in self.filteredArray {
+                    for p in self.newDict {
+                        if i.id == p.key {
+                            self.filteredArray2.append(i)
+                        }
+                    }
+                }
+        
         self.creditsLabel.text = "Credits: \(UserDefaults.standard.credits)"
         
         totalPrice.text = "total price"
@@ -114,7 +123,7 @@ extension ViewController3: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return self.filteredArray.count
+        return self.filteredArray2.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -122,12 +131,12 @@ extension ViewController3: UITableViewDelegate, UITableViewDataSource {
         
         //cell.productName.text = "Hello"
         cell.delegate = self
-        cell.brandNameVC3.text = filteredArray[indexPath.row].brand
-        cell.imageVC3.image = self.imageDict[self.filteredArray[indexPath.row].images.first ?? "Error"]
-        cell.quantityVC3.text = "\(self.newDict[filteredArray[indexPath.row].id] ?? 0)"
-        cell.subtotalVC3.text = "\(filteredArray[indexPath.row].price * (self.newDict[filteredArray[indexPath.row].id] ?? 0))"
+        cell.brandNameVC3.text = filteredArray2[indexPath.row].brand
+        cell.imageVC3.image = self.imageDict[self.filteredArray2[indexPath.row].images.first ?? "Error"]
+        cell.quantityVC3.text = "\(self.newDict[filteredArray2[indexPath.row].id] ?? 0)"
+        cell.subtotalVC3.text = "\(filteredArray2[indexPath.row].price * (self.newDict[filteredArray2[indexPath.row].id] ?? 0))"
         
-        cell.total[indexPath] = Int("\(filteredArray[indexPath.row].price * (self.newDict[filteredArray[indexPath.row].id] ?? 0))") ?? 0
+        cell.total[indexPath] = Int("\(filteredArray2[indexPath.row].price * (self.newDict[filteredArray2[indexPath.row].id] ?? 0))") ?? 0
         
         cell.delegate?.passData(dict: cell.total)
         
