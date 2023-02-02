@@ -241,7 +241,7 @@ extension ViewController2: UITableViewDelegate, UITableViewDataSource {
         cell.priceLabel.text = "price: \((self.filteredArray[indexPath.section][indexPath.row].price))"
         //cell.quantityLabel.text = "\(cell.dict[indexPath] ?? 0)"
         
-        cell.quantityLabel.text = "\(self.dict4[self.filteredArray[indexPath.section][indexPath.row].id] ?? 0)"
+        cell.quantityLabel.text = "\(UserDefaults.standard.dict[self.filteredArray[indexPath.section][indexPath.row].id] ?? 0)"
         
         cell.productImage.image = self.imageDict[self.filteredArray[indexPath.section][indexPath.row].images.first ?? "Error"]
         
