@@ -17,6 +17,9 @@ class ViewController2: UIViewController {
     @IBOutlet weak var mainTotalLabel: UILabel!
     
     @IBAction func clearNetwork(_ sender: UIButton) {
+        
+        print(self.dict4)
+        print(UserDefaults.standard.dict)
     }
     
     
@@ -79,6 +82,8 @@ class ViewController2: UIViewController {
             
             self.filteredArray3 = UserDefaults.standard.filteredArray3
         }
+        self.mainQuantityLabel.text = "\(UserDefaults.standard.dict.reduce(0) { $0 + $1.value })"
+        checkTotal()
     }
     
     override func viewDidLoad() {
@@ -286,9 +291,9 @@ extension ViewController2: passData{
             UserDefaults.standard.filteredArray3 = self.filteredArray3
         }
         
-        //self.filteredArray2[filteredArray[index.section][index.row]] = index
-        self.mainTotal += self.filteredArray[index.section][index.row].price
-        self.mainTotalLabel.text = "\(self.mainTotal)"
+        //zzzzself.filteredArray2[filteredArray[index.section][index.row]] = index
+        //self.mainTotal += self.filteredArray[index.section][index.row].price
+        //self.mainTotalLabel.text = "\(self.mainTotal)"
         
         self.dict4[filteredArray[index.section][index.row].id] = quantity
         
@@ -300,8 +305,8 @@ extension ViewController2: passData{
     }
     
     func indexMinus(index: IndexPath, quantity: Int) {
-        self.mainTotal -= self.filteredArray[index.section][index.row].price
-        self.mainTotalLabel.text = "\(self.mainTotal)"
+        //self.mainTotal -= self.filteredArray[index.section][index.row].price
+        //self.mainTotalLabel.text = "\(self.mainTotal)"
         self.dict4[filteredArray[index.section][index.row].id] = quantity
         //self.filteredArray3.append(filteredArray[index.section][index.row])
         
@@ -311,18 +316,40 @@ extension ViewController2: passData{
     }
     
     func plusQuantity() {
-        self.mainQuantity += 1
-        self.mainQuantityLabel.text = "\(mainQuantity)"
+        //self.mainQuantity += 1
+        self.mainQuantityLabel.text = "\(UserDefaults.standard.dict.reduce(0) { $0 + $1.value })"
+        
+        checkTotal()
+        //self.mainTotalLabel.text =
         
     }
     
     func minusQuantity() {
-        if self.mainQuantity > 0 {
-            self.mainQuantity -= 1
-            self.mainQuantityLabel.text = "\(mainQuantity)"
+        if self.mainQuantity >= 0 {
+            //self.mainQuantity -= 1
+            self.mainQuantityLabel.text = "\(UserDefaults.standard.dict.reduce(0) { $0 + $1.value })"
             
         }
+        
+        checkTotal()
+        }
+    
+    func checkTotal(){
+        
+        self.mainTotal = 0
+        for i in array[0].products{
+            for p in UserDefaults.standard.dict{
+                if i.id == p.key{
+                    
+                    self.mainTotal += p.value * i.price
+                    print(self.mainTotal)
+                    self.mainTotalLabel.text = "\(self.mainTotal)"
+                }
+            }
+        }
+        
     }
+    
 }
 
 extension UserDefaults {

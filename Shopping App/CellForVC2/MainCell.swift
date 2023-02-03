@@ -28,16 +28,16 @@ class MainCell: UITableViewCell {
     @IBAction func plusButton(_sender: UIButton) {
         if quantity < maxQ {
             plus()
-            delegate?.plusQuantity()
             delegate?.indexPlus(index: index, quantity: quantity)
+            delegate?.plusQuantity()
         }
     }
     @IBAction func minusButton(_sender: UIButton) {
         
         if quantity > 0{
             minus()
-            delegate?.minusQuantity()
             delegate?.indexMinus(index: index, quantity: quantity)
+            delegate?.minusQuantity()
         }
     }
     
