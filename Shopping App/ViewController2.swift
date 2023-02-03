@@ -82,8 +82,8 @@ class ViewController2: UIViewController {
             
             self.filteredArray3 = UserDefaults.standard.filteredArray3
         }
-        self.mainQuantityLabel.text = "0"
-        self.mainQuantityLabel.text = "\(self.dict4.reduce(0) { $0 + $1.value } ?? 0)"
+        
+        self.mainQuantityLabel.text = "\(UserDefaults.standard.dict.reduce(0) { $0 + $1.value } ?? 0)"
         self.mainTotalLabel.text = "0"
         checkTotal()
         
