@@ -82,8 +82,11 @@ class ViewController2: UIViewController {
             
             self.filteredArray3 = UserDefaults.standard.filteredArray3
         }
-        self.mainQuantityLabel.text = "\(UserDefaults.standard.dict.reduce(0) { $0 + $1.value })"
+        self.mainQuantityLabel.text = "0"
+        self.mainQuantityLabel.text = "\(self.dict4.reduce(0) { $0 + $1.value } ?? 0)"
+        self.mainTotalLabel.text = "0"
         checkTotal()
+        
     }
     
     override func viewDidLoad() {
@@ -316,7 +319,7 @@ extension ViewController2: passData{
     }
     
     func plusQuantity() {
-        //self.mainQuantity += 1
+        self.mainQuantity += 1
         self.mainQuantityLabel.text = "\(UserDefaults.standard.dict.reduce(0) { $0 + $1.value })"
         
         checkTotal()
@@ -325,8 +328,10 @@ extension ViewController2: passData{
     }
     
     func minusQuantity() {
+        
+        self.mainTotalLabel.text = "0"
         if self.mainQuantity >= 0 {
-            //self.mainQuantity -= 1
+            self.mainQuantity -= 1
             self.mainQuantityLabel.text = "\(UserDefaults.standard.dict.reduce(0) { $0 + $1.value })"
             
         }
@@ -335,19 +340,19 @@ extension ViewController2: passData{
         }
     
     func checkTotal(){
-        
-        self.mainTotal = 0
-        for i in array[0].products{
-            for p in UserDefaults.standard.dict{
-                if i.id == p.key{
-                    
-                    self.mainTotal += p.value * i.price
-                    print(self.mainTotal)
-                    self.mainTotalLabel.text = "\(self.mainTotal)"
+        if self.array.count != 0 {
+            self.mainTotal = 0
+            for i in array[0].products{
+                for p in UserDefaults.standard.dict{
+                    if i.id == p.key{
+                        
+                        self.mainTotal += p.value * i.price
+                        print(mainTotal)
+                        self.mainTotalLabel.text = "\(self.mainTotal)"
+                    }
                 }
             }
         }
-        
     }
     
 }
@@ -435,7 +440,8 @@ extension UserDefaults {
     var dict: [Int : Int] {
         
         get {
-            let decoded = try? JSONDecoder().decode([Int : Int].self, from: UserDefaults.standard.object(forKey: UserDefaults.UserDefaultsKeys.dict.rawValue) as! Data)
+            guard let data = object(forKey: UserDefaults.UserDefaultsKeys.dict.rawValue) else { return [0: 0]}
+            let decoded = try? JSONDecoder().decode([Int : Int].self, from: data as! Data)
             
             return decoded!
         }

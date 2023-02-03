@@ -15,6 +15,7 @@ class SuccessVC: UIViewController {
         
         delegate?.back()
         self.dismiss(animated: true)
+        UserDefaults.standard.dict = [0: 0]
         
     }
     
